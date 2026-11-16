@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Wealth Identity Audit · Your Wealthiest Self</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0d0b0c;
+    --card: #1f1a1c;
+    --card2: #262022;
+    --line: #3a3034;
+    --rose: #dca591;
+    --rose-deep: #b7795f;
+    --gold: #e9c9a8;
+    --rose-soft: rgba(220,165,145,0.12);
+    --text: #f4ece8;
+    --muted: #b9aaa4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: radial-gradient(ellipse at top, #2c2023 0%, var(--black) 60%);
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 16px; line-height: 1.6;
+    min-height: 100vh; padding: 24px 16px 60px;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  .brand { text-align: center; letter-spacing: .25em; font-size: 11px; text-transform: uppercase; color: var(--rose); margin-bottom: 8px; }
+  h1, h2, h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; line-height: 1.15; }
+  h1 { font-size: clamp(34px, 7vw, 52px); text-align: center; margin-bottom: 8px; }
+  h1 em, h2 em { color: var(--rose); font-style: italic; }
+  h2 { font-size: clamp(28px, 5.5vw, 38px); margin-bottom: 10px; }
+  h3 { font-size: 22px; margin: 4px 0 6px; color: var(--gold); }
+  .sub { text-align: center; color: var(--muted); max-width: 540px; margin: 0 auto 26px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 26px 20px; }
+  @media (min-width: 600px) { .card { padding: 36px 40px; } }
+  .hidden { display: none !important; }
+  .kicker { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--rose); margin-bottom: 6px; }
+  .intro { color: var(--muted); margin-bottom: 22px; }
+  .teach { background: var(--rose-soft); border-left: 3px solid var(--rose); border-radius: 0 12px 12px 0; padding: 14px 16px; margin: 0 0 24px; font-style: italic; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 19px; line-height: 1.45; }
+  .q { margin-bottom: 24px; }
+  .q label { display: block; font-weight: 500; margin-bottom: 4px; }
+  .q .hint { display: block; color: var(--muted); font-size: 14px; margin-bottom: 8px; }
+  textarea, input[type=text], input[type=password] {
+    width: 100%; background: var(--card2); color: var(--text); border: 1px solid var(--line);
+    border-radius: 12px; padding: 12px 14px; font: inherit; font-size: 16px;
+  }
+  textarea { min-height: 110px; resize: vertical; }
+  textarea:focus, input:focus { outline: none; border-color: var(--rose); box-shadow: 0 0 0 3px var(--rose-soft); }
+  .scale { display: flex; align-items: center; gap: 14px; }
+  .scale input[type=range] { flex: 1; accent-color: var(--rose); height: 28px; }
+  .scale .val { font-family: 'Cormorant Garamond', serif; font-size: 30px; color: var(--rose); min-width: 36px; text-align: center; }
+  .scale-ends { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: -2px; }
+  .btns { display: flex; gap: 12px; justify-content: space-between; margin-top: 28px; flex-wrap: wrap; }
+  button { font: inherit; cursor: pointer; border-radius: 40px; padding: 13px 24px; font-weight: 600; font-size: 15px; border: none; }
+  .primary { background: linear-gradient(135deg, var(--gold), var(--rose) 55%, var(--rose-deep)); color: var(--black); }
+  .primary:hover { filter: brightness(1.06); }
+  .ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+  .ghost:hover { border-color: var(--rose); }
+  .full { width: 100%; }
+  .progress { height: 4px; background: var(--line); border-radius: 4px; overflow: hidden; margin: 0 0 8px; }
+  .progress div { height: 100%; background: linear-gradient(90deg, var(--gold), var(--rose)); width: 0; transition: width .4s; }
+  .stepcount { text-align: right; font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+  .note { font-size: 13px; color: var(--muted); text-align: center; margin-top: 18px; }
+  .err { color: #f0a0a0; font-size: 14px; margin-top: 10px; min-height: 20px; }
+  .tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 18px; }
+  .tabs button { padding: 9px 18px; font-size: 14px; background: transparent; color: var(--muted); border: 1px solid var(--line); }
+  .tabs button.on { color: var(--black); background: var(--rose); border-color: var(--rose); }
+  .trio { display: grid; gap: 10px; }
+  .numbered { display: flex; gap: 10px; align-items: center; }
+  .numbered span { font-family: 'Cormorant Garamond', serif; font-size: 26px; color: var(--rose); width: 22px; }
+  .flash { color: var(--gold); font-size: 14px; margin-top: 8px; min-height: 20px; }
+  .steps-list { list-style: none; margin: 18px 0 6px; }
+  .steps-list li { padding: 10px 0; border-bottom: 1px solid var(--line); display: flex; gap: 12px; }
+  .steps-list li b { color: var(--rose); font-family: 'Cormorant Garamond', serif; font-size: 20px; min-width: 22px; }
+  .map-section { margin-bottom: 26px; }
+  .map-section h3 { border-bottom: 1px solid var(--line); padding-bottom: 6px; margin-bottom: 10px; }
+  .map-item { margin-bottom: 12px; }
+  .map-item .mq { font-size: 13px; color: var(--muted); }
+  .map-item .ma { white-space: pre-wrap; }
+  .iam { text-align: center; font-family: 'Cormorant Garamond', serif; font-size: clamp(26px, 5vw, 34px); font-style: italic; color: var(--gold); margin: 8px 0 26px; }
+  .day { border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin-bottom: 12px; background: var(--card2); }
+  .day.today { border-color: var(--rose); }
+  .day .dh { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+  .day .dh b { font-family: 'Cormorant Garamond', serif; font-size: 21px; color: var(--rose); }
+  .day .dh small { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; }
+  .day .dp { font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+  .day textarea { min-height: 70px; }
+  footer { text-align: center; font-size: 12px; color: var(--muted); margin-top: 30px; }
+  footer a { color: var(--muted); }
+</style>
+<style>
+  .gk { display: grid; grid-template-columns: 92px 1fr; gap: 12px; align-items: start; margin-bottom: 16px; }
+  .gk input { width: 100%; background: var(--card2); color: var(--text); border: 1px solid var(--line); border-radius: 12px; padding: 10px 8px; font: inherit; text-align: center; font-size: 20px; }
+  .gk input:focus { outline: none; border-color: var(--rose); }
+  .gk .gkname { font-weight: 500; }
+  .gk .gkout { font-size: 14px; color: var(--muted); margin-top: 4px; min-height: 20px; }
+  .gk .gkout b { color: var(--gold); font-weight: 500; }
+  .credit { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 14px; margin-top: 10px; }
+  .area { border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 18px; background: var(--card2); }
+  .area h3 { margin-bottom: 12px; }
+  .choice { display: block; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; cursor: pointer; }
+  .choice input { margin-right: 10px; accent-color: var(--rose); }
+  .choice.on { border-color: var(--rose); background: var(--rose-soft); }
+  .reading h3 { margin-top: 22px; }
+  .reading h4 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 19px; color: var(--rose); margin: 14px 0 4px; }
+  .reading p { margin-bottom: 10px; }
+  .part { text-align: center; font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(26px, 5vw, 34px); color: var(--gold); margin: 30px 0 6px; font-style: italic; }
+  .spinner { text-align: center; color: var(--gold); padding: 20px 0; }
+  @media print {
+    body { background: #fff !important; color: #222 !important; padding: 0; }
+    .card { background: #fff !important; border: none !important; }
+    .btns, .note, footer a, .tabs { display: none !important; }
+    h3, .part { color: #8a5a45 !important; }
+    .ma, .reading { color: #222 !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">Senga Cree · Your Wealthiest Self · Wealth Ripple Effect</div>
+  <h1>The Wealth <em>Identity</em> Audit</h1>
+  <p class="sub">A comprehensive map of your current relationship with wealth, in every sense, and your personally designed blueprint for wealth.</p>
+
+  <div id="login" class="card">
+    <div class="kicker">Your Ripple Effect gift</div>
+    <h2>Enter your Audit code</h2>
+    <p class="intro">Your code is in the email you received for inviting 3 friends to Your Wealthiest Self. Thank you for rippling.</p>
+    <input type="password" id="code" placeholder="Audit code" autocomplete="off">
+    <div class="err" id="codeErr"></div>
+    <button class="primary full" onclick="checkCode()">Open my Audit</button>
+  </div>
+
+  <div id="app" class="hidden">
+    <div class="progress" id="progWrap"><div id="prog"></div></div>
+    <div class="stepcount" id="stepcount"></div>
+    <div class="card" id="screen"></div>
+    <p class="note">Your answers save privately in this browser only. Senga never sees them.</p>
+  </div>
+
+  <footer>
+    © Senga Cree · Exponential Psychology<br>
+    Gene Keys © Richard Rudd · genekeys.com<br>
+    <a href="#" onclick="clearAll();return false;">Clear my answers</a>
+  </footer>
+</div>
+
+<script>
+/* ===== SETTINGS ===== */
+const ACCESS_CODE = "ripple369";   // the code you email to referrers
+const WORKER_URL = "";             // leave empty for copy & paste; add your Cloudflare Worker link to switch on built-in AI
+const STORE_KEY = "yws_wealth_audit_v1";
+/* ==================== */
+
+const GENE_KEYS = {
+1:["From Entropy to Syntropy","Entropy","Freshness","Beauty"],
+2:["Returning to the One","Dislocation","Orientation","Unity"],
+3:["Through the Eyes of a Child","Chaos","Innovation","Innocence"],
+4:["A Universal Panacea","Intolerance","Understanding","Forgiveness"],
+5:["The Ending of Time","Impatience","Patience","Timelessness"],
+6:["The Path to Peace","Conflict","Diplomacy","Peace"],
+7:["Virtue is its Own Reward","Division","Guidance","Virtue"],
+8:["Diamond of the Self","Mediocrity","Style","Exquisiteness"],
+9:["The Power of the Infinitesimal","Inertia","Determination","Invincibility"],
+10:["Being at Ease","Self-Obsession","Naturalness","Being"],
+11:["The Light of Eden","Obscurity","Idealism","Light"],
+12:["A Pure Heart","Vanity","Discrimination","Purity"],
+13:["Listening Through Love","Discord","Discernment","Empathy"],
+14:["Radiating Prosperity","Compromise","Competence","Bounteousness"],
+15:["An Eternally Flowering Spring","Dullness","Magnetism","Florescence"],
+16:["Magical Genius","Indifference","Versatility","Mastery"],
+17:["The Eye","Opinion","Far-Sightedness","Omniscience"],
+18:["The Healing Power of Mind","Judgement","Integrity","Perfection"],
+19:["The Future Human Being","Co-Dependence","Sensitivity","Sacrifice"],
+20:["The Sacred Om","Superficiality","Self-Assurance","Presence"],
+21:["A Noble Life","Control","Authority","Valour"],
+22:["Grace Under Pressure","Dishonour","Graciousness","Grace"],
+23:["The Alchemy of Simplicity","Complexity","Simplicity","Quintessence"],
+24:["Silence — The Ultimate Addiction","Addiction","Invention","Silence"],
+25:["The Myth of the Sacred Wound","Constriction","Acceptance","Universal Love"],
+26:["Sacred Tricksters","Pride","Artfulness","Invisibility"],
+27:["Food of the Gods","Selfishness","Altruism","Selflessness"],
+28:["Embracing the Dark Side","Purposelessness","Totality","Immortality"],
+29:["Leaping into the Void","Half-Heartedness","Commitment","Devotion"],
+30:["Celestial Fire","Desire","Lightness","Rapture"],
+31:["Sounding Your Truth","Arrogance","Leadership","Humility"],
+32:["Ancestral Reverence","Failure","Preservation","Veneration"],
+33:["The Final Revelation","Forgetting","Mindfulness","Revelation"],
+34:["The Beauty of the Beast","Force","Strength","Majesty"],
+35:["Wormholes and Miracles","Hunger","Adventure","Boundlessness"],
+36:["Becoming Human","Turbulence","Humanity","Compassion"],
+37:["Family Alchemy","Weakness","Equality","Tenderness"],
+38:["The Warrior of Light","Struggle","Perseverance","Honour"],
+39:["The Tension of Transcendence","Provocation","Dynamism","Liberation"],
+40:["The Will to Surrender","Exhaustion","Resolve","Divine Will"],
+41:["The Prime Emanation","Fantasy","Anticipation","Emanation"],
+42:["Letting Go of Living and Dying","Expectation","Detachment","Celebration"],
+43:["Breakthrough","Deafness","Insight","Epiphany"],
+44:["Karmic Relationships","Interference","Teamwork","Synarchy"],
+45:["Cosmic Communion","Dominance","Synergy","Communion"],
+46:["A Science of Luck","Seriousness","Delight","Ecstasy"],
+47:["Transmuting the Past","Oppression","Transmutation","Transfiguration"],
+48:["The Wonder of Uncertainty","Inadequacy","Resourcefulness","Wisdom"],
+49:["Changing the World from the Inside","Reaction","Revolution","Rebirth"],
+50:["Cosmic Order","Corruption","Equilibrium","Harmony"],
+51:["Initiative to Initiation","Agitation","Initiative","Awakening"],
+52:["The Stillpoint","Stress","Restraint","Stillness"],
+53:["Evolving Beyond Evolution","Immaturity","Expansion","Superabundance"],
+54:["The Serpent Path","Greed","Aspiration","Ascension"],
+55:["The Dragonfly's Dream","Victimisation","Freedom","Freedom"],
+56:["Divine Indulgence","Distraction","Enrichment","Intoxication"],
+57:["A Gentle Wind","Unease","Intuition","Clarity"],
+58:["From Stress to Bliss","Dissatisfaction","Vitality","Bliss"],
+59:["The Dragon in Your Genome","Dishonesty","Intimacy","Transparency"],
+60:["The Cracking of the Vessel","Limitation","Realism","Justice"],
+61:["The Holy of Holies","Psychosis","Inspiration","Sanctity"],
+62:["The Language of Light","Intellect","Precision","Impeccability"],
+63:["Reaching the Source","Doubt","Inquiry","Truth"],
+64:["The Aurora","Confusion","Imagination","Illumination"]
+};
+
+
+const AREAS = [
+  { id: "money", name: "Money" },
+  { id: "rel", name: "Relationships & Connection" },
+  { id: "life", name: "Lifestyle & Time" },
+  { id: "purpose", name: "Purpose" }
+];
+
+/* Senga: replace these with your own creatorship levels if you have them defined */
+const CREATORSHIP = [
+  "Surviving: money mostly goes out as fast as it comes in",
+  "Earning: I earn, but I trade time for money",
+  "Keeping: I earn and I'm building a cushion",
+  "Growing: my money is starting to work for me",
+  "Creating: I create wealth from many sources, on my terms"
+];
+
+const SPHERES = [
+  { id: "brand", name: "Brand", seq: "Pearl Sequence (Prosperity)" },
+  { id: "vocation", name: "Vocation", seq: "Pearl Sequence (Prosperity)" },
+  { id: "culture", name: "Culture", seq: "Pearl Sequence (Prosperity)" },
+  { id: "pearl", name: "Pearl", seq: "Pearl Sequence (Prosperity)" },
+  { id: "attraction", name: "Attraction", seq: "Venus Sequence (Relationships)" }
+];
+
+const STEPS = [
+  { id: "now", kicker: "Part 1 · Your money language", title: "Your money <em>words</em>",
+    teach: "Write what you actually say, not what you think you should say. The everyday phrases are where the code is hidden.",
+    qs: [
+      { id: "now_say", label: "When money comes up in conversation, what do you usually say?", hint: "Write the actual phrases, word for word." },
+      { id: "now_finish", label: "Finish these sentences:", hint: "“Money is…”  ·  “People with a lot of money are…”  ·  “When it comes to money, I'm the kind of person who…”" },
+      { id: "now_heard", label: "What did you hear about money growing up?", hint: "Which phrases have stayed with you?" }
+    ] },
+  { id: "future", kicker: "Part 1 · Your money language", title: "Your wealthiest self's <em>language</em>",
+    teach: "Your wealthiest self speaks differently about money. Let's hear how.",
+    qs: [
+      { id: "fut_day", label: "Describe an ordinary day as your wealthiest self.", hint: "What you do, decide, and say yes and no to." },
+      { id: "fut_sentence", type: "line", label: "Write one sentence your wealthiest self would say about money." },
+      { id: "fut_stop", label: "What would your wealthiest self stop saying that you say now?" }
+    ] },
+  { id: "between", kicker: "Part 1 · Your money language", title: "The space <em>between</em>",
+    teach: "The gap between how you speak now and how your wealthiest self speaks is where your beliefs live.",
+    qs: [
+      { id: "bet_yesbut", label: "Reading your wealthiest-self description, what's the first “yes, but…” that comes up?" },
+      { id: "bet_finish", label: "Finish these sentences:", hint: "“I'd have more money if only…”  ·  “If I had a lot more money, I'm worried that…”" },
+      { id: "bet_inout", label: "What do you say to yourself when money comes in, and when it goes out?" }
+    ] },
+  { id: "areas", kicker: "Part 2 · Your wealth areas", title: "Wealth in every <em>sense</em>",
+    teach: "Wealth is more than money. It's the richness of your relationships, your time, your lifestyle and your purpose.",
+    special: "areas" },
+  { id: "picture", kicker: "Part 3 · Your money picture", title: "Your money <em>picture</em>",
+    teach: "No exact figures needed. A sentence for each is enough. This is for you alone.",
+    special: "picture",
+    qs: [
+      { id: "pic_comes", label: "How does money come to you now?", hint: "Salary, business, investments, other…" },
+      { id: "pic_now", label: "Describe where you are right now with spending, savings, debt and investing." },
+      { id: "pic_bank", label: "What do you say to yourself when you check your bank account?" }
+    ] },
+  { id: "genekeys", kicker: "Part 4 · Your Gene Keys", title: "Your prosperity <em>codes</em>",
+    teach: "The Gene Keys are the work of Richard Rudd. Each of the 64 Gene Keys holds a Shadow, a Gift and a Siddhi: a spectrum of consciousness from fear to genius to our highest potential.",
+    special: "genekeys" }
+];
+
+let data = { answers: {}, analysis: "", stage: "welcome", step: 0 };
+
+function load() { try { const s = localStorage.getItem(STORE_KEY); if (s) data = Object.assign(data, JSON.parse(s)); } catch (e) {} }
+function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(data)); } catch (e) {} }
+function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+function $(id) { return document.getElementById(id); }
+const A = id => data.answers[id];
+
+function checkCode() {
+  if ($("code").value.trim().toLowerCase() === ACCESS_CODE.toLowerCase()) {
+    try { sessionStorage.setItem(STORE_KEY + "_ok", "1"); } catch (e) {}
+    showApp();
+  } else { $("codeErr").textContent = "That code doesn't match. Please check and try again."; }
+}
+$("code").addEventListener("keydown", e => { if (e.key === "Enter") checkCode(); });
+function showApp() { $("login").classList.add("hidden"); $("app").classList.remove("hidden"); load(); render(); }
+
+function qHTML(q) {
+  const v = A(q.id);
+  let h = `<div class="q"><label>${q.label}</label>${q.hint ? `<span class="hint">${q.hint}</span>` : ""}`;
+  if (q.type === "scale") {
+    const val = v || 5;
+    h += `<div class="scale"><input type="range" min="1" max="10" value="${val}" data-id="${q.id}" oninput="setVal(this);this.nextElementSibling.textContent=this.value"><span class="val">${val}</span></div><div class="scale-ends"><span>${q.lo}</span><span>${q.hi}</span></div>`;
+    if (!v) data.answers[q.id] = val;
+  } else if (q.type === "line") h += `<input type="text" value="${esc(v)}" data-id="${q.id}" oninput="setVal(this)">`;
+  else h += `<textarea data-id="${q.id}" oninput="setVal(this)">${esc(v)}</textarea>`;
+  return h + `</div>`;
+}
+function setVal(el) { data.answers[el.dataset.id] = el.value; save(); }
+
+function areaQs(a) {
+  return [
+    { id: `area_${a.id}_score`, type: "scale", label: `How wealthy is this area of your life right now?`, lo: "Not at all", hi: "Completely" },
+    { id: `area_${a.id}_say`, label: "What do you usually say about this area of your life?", hint: "The words you actually use." },
+    { id: `area_${a.id}_vision`, type: "line", label: "In one sentence, what would wealth look like here for your wealthiest self?" }
+  ];
+}
+
+function gkText(n) {
+  const k = GENE_KEYS[n];
+  return k ? `<b>${n}: ${k[0]}</b><br>Shadow: ${k[1]} · Gift: ${k[2]} · Siddhi: ${k[3]}` : "";
+}
+function setGK(el) {
+  let n = parseInt(el.value, 10);
+  if (!(n >= 1 && n <= 64)) { data.answers["gk_" + el.dataset.s] = ""; $("gko_" + el.dataset.s).innerHTML = el.value ? "Please enter a number from 1 to 64." : ""; save(); return; }
+  data.answers["gk_" + el.dataset.s] = n; save();
+  $("gko_" + el.dataset.s).innerHTML = gkText(n);
+}
+
+function specialHTML(st) {
+  if (st.special === "areas") {
+    return AREAS.map(a => `<div class="area"><h3>${a.name}</h3>${areaQs(a).map(qHTML).join("")}</div>`).join("");
+  }
+  if (st.special === "picture") {
+    const cur = A("pic_level");
+    return st.qs.map(qHTML).join("") +
+      `<div class="q"><label>Your creatorship level</label><span class="hint">Which describes you best right now?</span>` +
+      CREATORSHIP.map((c, i) => `<label class="choice${cur === c ? " on" : ""}"><input type="radio" name="lvl" ${cur === c ? "checked" : ""} onchange="data.answers.pic_level=CREATORSHIP[${i}];save();render()">${c}</label>`).join("") + `</div>`;
+  }
+  if (st.special === "genekeys") {
+    return `<p class="intro">Find your free Gene Keys profile at <b>genekeys.com</b> using your birth date, time and place. Then enter the Gene Key number (1–64) for each of these five spheres. You don't need the line number after the dot.</p>` +
+      SPHERES.map(s => {
+        const v = A("gk_" + s.id) || "";
+        return `<div class="gk"><input type="number" min="1" max="64" inputmode="numeric" value="${v}" data-s="${s.id}" oninput="setGK(this)" placeholder="#"><div><div class="gkname">${s.name}</div><div class="hint" style="font-size:13px;color:var(--muted)">${s.seq}</div><div class="gkout" id="gko_${s.id}">${v ? gkText(v) : ""}</div></div></div>`;
+      }).join("") +
+      `<div class="credit">The Gene Keys, and the names of each Gene Key's Shadow, Gift and Siddhi, are the work of Richard Rudd, from <i>The Gene Keys: Unlocking the Higher Purpose Hidden in Your DNA</i>. Explore his work at genekeys.com.</div>`;
+  }
+  return "";
+}
+
+function go(stage, step) { data.stage = stage; if (step != null) data.step = step; save(); render(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+
+function render() {
+  const s = $("screen");
+  const total = STEPS.length + 1;
+  let pos = data.stage === "steps" ? data.step + 1 : (data.stage === "analysis" ? total : 0);
+  const showProg = ["steps", "analysis"].includes(data.stage);
+  $("progWrap").classList.toggle("hidden", !showProg);
+  $("stepcount").classList.toggle("hidden", !showProg);
+  $("prog").style.width = (pos / total * 100) + "%";
+  $("stepcount").textContent = showProg ? `${pos} of ${total}` : "";
+
+  if (data.stage === "welcome") {
+    s.innerHTML = `<div class="kicker">Your Wealth Identity Audit</div>
+      <h2>See your whole <em>wealth picture</em></h2>
+      <p class="intro">This takes around 40–50 minutes. Find a quiet moment and answer in the words you really use. You can leave and come back at any time; your answers are saved on this device.</p>
+      <ul class="steps-list">
+        <li><b>1</b><span>Your money language</span></li>
+        <li><b>2</b><span>Your wealth areas: money, relationships, lifestyle and purpose</span></li>
+        <li><b>3</b><span>Your money picture and creatorship level</span></li>
+        <li><b>4</b><span>Your Gene Keys prosperity codes</span></li>
+        <li><b>5</b><span>Your Wealth Identity Map and Personal Wealth Blueprint</span></li>
+      </ul>
+      <p class="intro" style="margin-top:14px">Before you start, have your Gene Keys profile ready from genekeys.com.</p>
+      <div class="btns"><span></span><button class="primary" onclick="start()">${Object.keys(data.answers).length ? "Continue" : "Begin"} →</button></div>`;
+  } else if (data.stage === "steps") {
+    const st = STEPS[data.step];
+    s.innerHTML = `<div class="kicker">${st.kicker}</div><h2>${st.title}</h2><div class="teach">${st.teach}</div>
+      ${st.special ? specialHTML(st) : st.qs.map(qHTML).join("")}
+      <div class="btns"><button class="ghost" onclick="back()">← Back</button><button class="primary" onclick="next()">${data.step === STEPS.length - 1 ? "Create my Audit" : "Next"} →</button></div>`;
+  } else if (data.stage === "analysis") {
+    if (WORKER_URL) {
+      s.innerHTML = `<div class="kicker">Your Audit</div><h2>Creating your <em>Audit</em></h2>
+        <p class="intro">Your answers are ready. Tap below and your Wealth Identity Map and Blueprint will be created for you. It takes about a minute.</p>
+        <button class="primary full" id="genBtn" onclick="generate()">Reveal my Audit</button>
+        <div id="genMsg"></div>
+        <div class="btns"><button class="ghost" onclick="go('steps', STEPS.length-1)">← Back</button><span></span></div>`;
+    } else {
+      s.innerHTML = `<div class="kicker">Your Audit</div><h2>Create your <em>Audit</em></h2>
+        <p class="intro">Your answers and Senga's Audit prompt are ready to copy together in one go.</p>
+        <ol style="margin:0 0 18px 20px;color:var(--muted)">
+          <li>Tap <b>Copy everything</b>.</li>
+          <li>Open Claude, ChatGPT or your usual AI, and paste it into a new chat.</li>
+          <li>Copy the reply and paste it into the box below.</li>
+        </ol>
+        <button class="primary full" onclick="copyAll()">Copy everything</button>
+        <div class="flash" id="flash"></div>
+        <div class="q" style="margin-top:18px"><label>Paste your Audit here</label><textarea style="min-height:220px" oninput="data.analysis=this.value;save()">${esc(data.analysis)}</textarea></div>
+        <div class="btns"><button class="ghost" onclick="go('steps', STEPS.length-1)">← Back</button><button class="primary" onclick="finish()">See my Audit →</button></div>`;
+    }
+  } else if (data.stage === "result") {
+    s.innerHTML = `<div class="kicker">Your Wealth Identity Audit</div><h2>Your whole <em>wealth picture</em></h2>
+      <p class="intro">Read it slowly, then come back to your Blueprint each week.</p>
+      ${resultBody()}
+      <div class="btns"><button class="ghost" onclick="go('analysis')">← Back</button><button class="primary" onclick="window.print()">Save as PDF</button></div>
+      <div class="btns" style="margin-top:10px"><span></span><button class="ghost" onclick="download()">Download as a web page</button></div>`;
+  }
+}
+
+function start() { go("steps", Math.min(data.step || 0, STEPS.length - 1)); }
+function next() {
+  if (data.step === STEPS.length - 1) {
+    const missing = SPHERES.filter(sp => !A("gk_" + sp.id));
+    if (missing.length && !confirm(`You haven't entered a Gene Key for: ${missing.map(m => m.name).join(", ")}. Continue anyway?`)) return;
+    go("analysis");
+  } else go("steps", data.step + 1);
+}
+function back() { if (data.step > 0) go("steps", data.step - 1); else go("welcome"); }
+function finish() {
+  if (!data.analysis.trim() && !confirm("You haven't pasted your Audit yet. Continue anyway?")) return;
+  go("result");
+}
+
+function geneKeysText() {
+  return SPHERES.map(sp => {
+    const n = A("gk_" + sp.id); const k = GENE_KEYS[n];
+    return k ? `${sp.name} (${sp.seq}): Gene Key ${n}, "${k[0]}". Shadow: ${k[1]} · Gift: ${k[2]} · Siddhi: ${k[3]}` : `${sp.name}: (not entered)`;
+  }).join("\n");
+}
+
+function answersText() {
+  let t = "";
+  STEPS.slice(0, 3).forEach(st => {
+    t += `\n## ${st.title.replace(/<\/?em>/g, "")}\n`;
+    st.qs.forEach(q => { t += `\nQ: ${q.label}${q.hint ? " " + q.hint : ""}\nA: ${A(q.id) || "(left blank)"}\n`; });
+  });
+  t += `\n## Wealth areas\n`;
+  AREAS.forEach(a => {
+    const [sc, say, vis] = areaQs(a);
+    t += `\n${a.name}\nScore: ${A(sc.id) || "-"} / 10\nWhat I say about it: ${A(say.id) || "(left blank)"}\nWealth here would look like: ${A(vis.id) || "(left blank)"}\n`;
+  });
+  t += `\n## Money picture\n`;
+  STEPS[4].qs.forEach(q => { t += `\nQ: ${q.label}\nA: ${A(q.id) || "(left blank)"}\n`; });
+  t += `\nCreatorship level: ${A("pic_level") || "(not chosen)"}\n`;
+  t += `\n## Gene Keys\n${geneKeysText()}\n`;
+  return t;
+}
+
+const ANALYSIS_PROMPT = `You are creating a Wealth Identity Audit for someone on Senga Cree's programme "Your Wealthiest Self". Wealth is meant in its widest sense: money, relationships and connection, lifestyle and time, and purpose. Your role is to decode their language and beliefs with precision and compassion, using their exact words as evidence, then design a personal blueprint from what you find.
+
+Their answers cover: their money language (now, their wealthiest self, and the beliefs between), four wealth areas each with a self-score, language and vision, their money picture and creatorship level, and five Gene Keys.
+
+ABOUT THE GENE KEYS: The Gene Keys are the work of Richard Rudd. Each Gene Key has a Shadow, a Gift and a Siddhi, given with their answers. Use only the names provided. Brand, Vocation, Culture and Pearl come from the Pearl Sequence, the prosperity sequence, and relate to how they create value and prosperity. Attraction comes from the Venus Sequence and relates to relationships and connection. When you introduce this section, open with one sentence honouring Richard Rudd as the source of the Gene Keys, and present your reflections as an interpretation inspired by his work.
+
+LANGUAGE PATTERNS TO LOOK FOR:
+- Identity statements ("I'm bad with money", "I'm not a numbers person")
+- Limits and obligations ("I can't", "I have to", "I should")
+- Time distance ("one day", "when I...", "eventually")
+- Generalisations ("always", "never", "people like me")
+- Conditions and buts ("if only", "yes, but")
+- Loss of agency ("money just disappears", "it slips through my fingers")
+- Inherited phrases (sayings from family or growing up)
+
+Use these exact headings, in markdown (# for the two parts, ## for sections):
+
+# Part 1: Your Wealth Identity Map
+## Your money language
+The top 3 patterns. For each: quote their exact words, name the pattern, name the belief it reveals, and give a present-tense "I am" reframe that still feels believable.
+## Your expansive language
+Up to 3 phrases already in their answers that support wealth (always find at least one).
+## Your wealth areas
+For each of the four areas: their score, the belief their language reveals, and the gap between how they speak now and their vision.
+## Your money picture
+A short, non-judgemental reflection on their situation and creatorship level, focused on the language and beliefs around it.
+## Your Gene Keys
+For each of the five keys: name the sphere and key, then 2–3 sentences on how the Shadow may be showing up in their language or beliefs about wealth, and what the Gift opens up. Link to their actual words where you can. Mention the Siddhi briefly as the highest potential.
+
+# Part 2: Your Personal Wealth Blueprint
+## Your wealth identity statement
+2–3 sentences in "I am" language, built from their own wealthiest-self words.
+## Your belief rewrites
+3 rewrites, each from their exact phrase to a new phrase.
+## Your Gift to lean into
+The one Gene Key Gift most relevant to their next step, and what it means for how they create wealth.
+## Your 30-day focus
+One clear focus for each wealth area.
+## Your daily language practice
+One simple practice, under 5 minutes.
+## Your practical money step
+One small, specific action for this week, based on their money picture. Not financial or investment advice.
+
+RULES:
+- Warm, direct, UK English. Speak to them as "you".
+- Every insight must be grounded in what they wrote. Don't guess at things they didn't mention; only refer to family or childhood if they did.
+- No financial, investment or debt advice. No diagnosing or clinical language. If they mention hardship or distress, acknowledge it gently and keep the tone supportive.
+- Don't mention or promote any programme.
+- 1,200–1,600 words in total.
+
+Here are their answers:
+`;
+
+function copyAll() {
+  const text = ANALYSIS_PROMPT + answersText();
+  let done = false;
+  const ok = () => { done = true; $("flash").textContent = "Copied. Now paste it into a new AI chat."; };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(ok, () => { if (!done) fallbackCopy(text, ok); });
+    setTimeout(() => { if (!done) fallbackCopy(text, ok); }, 1500);
+  } else fallbackCopy(text, ok);
+}
+function fallbackCopy(text, ok) {
+  const ta = document.createElement("textarea"); ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try { document.execCommand("copy"); ok(); } catch (e) { $("flash").textContent = "Couldn't copy automatically. Please try again."; }
+  ta.remove();
+}
+
+async function generate() {
+  const btn = $("genBtn"), msg = $("genMsg");
+  btn.disabled = true; btn.textContent = "Creating your Audit…";
+  msg.innerHTML = `<div class="spinner">Reading your language and your Gene Keys. This takes about a minute…</div>`;
+  try {
+    const r = await fetch(WORKER_URL, { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code: ACCESS_CODE, prompt: ANALYSIS_PROMPT + answersText() }) });
+    const j = await r.json();
+    if (!r.ok || !j.text) throw new Error(j.error || "No reply");
+    data.analysis = j.text; save(); go("result");
+  } catch (e) {
+    btn.disabled = false; btn.textContent = "Try again";
+    msg.innerHTML = `<div class="err">Something went wrong creating your Audit. Please try again in a moment.</div>`;
+  }
+}
+
+function fmtReading(t) {
+  return esc(t).split(/\n/).map(line => {
+    let l = line.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+    if (/^#\s+/.test(l)) return `<div class="part">${l.replace(/^#\s+/, "")}</div>`;
+    if (/^##\s+/.test(l)) return `<h3>${l.replace(/^##\s+/, "")}</h3>`;
+    if (/^###\s+/.test(l)) return `<h4>${l.replace(/^###\s+/, "")}</h4>`;
+    if (!l.trim()) return "";
+    return `<p>${l.replace(/^[-*]\s+/, "• ")}</p>`;
+  }).join("");
+}
+
+function resultBody() {
+  let h = "";
+  if (data.analysis.trim()) h += `<div class="reading">${fmtReading(data.analysis)}</div>`;
+  const gks = SPHERES.filter(sp => GENE_KEYS[A("gk_" + sp.id)]);
+  if (gks.length) h += `<div class="map-section" style="margin-top:26px"><h3>My Gene Keys</h3>` + gks.map(sp => `<div class="map-item"><div class="mq">${sp.name} · ${sp.seq}</div><div class="ma">${gkText(A("gk_" + sp.id))}</div></div>`).join("") +
+    `<div class="credit">Gene Keys are the work of Richard Rudd · genekeys.com</div></div>`;
+  return h;
+}
+
+function download() {
+  const css = Array.from(document.querySelectorAll("style")).map(s => s.textContent).join("\n");
+  const date = new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+  const html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>My Wealth Identity Audit</title><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"><style>${css}</style></head><body><div class="wrap"><div class="brand">Senga Cree · Your Wealthiest Self</div><h1>My Wealth <em>Identity</em> Audit</h1><p class="sub">${date}</p><div class="card">${resultBody()}</div><footer>© Senga Cree · Exponential Psychology · Gene Keys © Richard Rudd</footer></div></body></html>`;
+  const blob = new Blob([html], { type: "text/html" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "My-Wealth-Identity-Audit.html";
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+
+function clearAll() {
+  if (confirm("This will permanently delete your answers and Audit from this device. This can't be undone.")) {
+    try { localStorage.removeItem(STORE_KEY); } catch (e) {}
+    data = { answers: {}, analysis: "", stage: "welcome", step: 0 };
+    if (!$("app").classList.contains("hidden")) render();
+  }
+}
+
+try { if (sessionStorage.getItem(STORE_KEY + "_ok")) showApp(); } catch (e) {}
+</script>
+</body>
+</html>
